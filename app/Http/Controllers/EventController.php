@@ -32,15 +32,15 @@ class EventController extends Controller
     public function store(EventRequest $request)
     {
         $data = $request->validated(); //valida o request
-        $data['user_id'] = 1;
+        $data['user_id'] = 1; //mudar quando fizer login
         //dd($data);
 
         try {
-            Event::create($data3);
+            Event::create($data);
 
             return back()->with('status', 'Evento cadastrado com sucesso');
         } catch (\Exception $exception) {
-            return back()->withErrors(['internal' => 'Usuário não foi possível cadastrar']);
+            return back()->withErrors(['internal' => 'Evento não foi possível cadastrar']);
         }
     }
 
