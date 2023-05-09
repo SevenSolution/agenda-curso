@@ -11,7 +11,7 @@ class EventRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class EventRequest extends FormRequest
         return [
             'title' => 'required|max:255',
             'start' => 'required|date',
-            'end' => 'nullable'
+            'end' => 'nullable|date',
         ];
     }
 
@@ -50,7 +50,10 @@ class EventRequest extends FormRequest
     {
         return[
             'title.required' => 'Campo título é obrigatório',
+            'title.max' => 'tamanho maximo excedido',
             'start.required' => 'Campo de início é obrigatório',
+            'start.date' => 'Campo de início deve ser do tipo data',
+            'end.date' => 'Campo de fim deve ser do tipo data'
             //'end' => '',
         ];
     }
@@ -62,6 +65,7 @@ class EventRequest extends FormRequest
      */
     public function attributes()
     {
+        //ver onde retorna
         return [
             'title' => 'titulo',
             'start' => 'inicio',

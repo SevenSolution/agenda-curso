@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EventRequest;
+use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -12,7 +14,8 @@ class EventController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+
+        //     return view('welcome');
     }
 
     /**
@@ -20,7 +23,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.create');
     }
 
     /**
@@ -28,7 +31,17 @@ class EventController extends Controller
      */
     public function store(EventRequest $request)
     {
-        //
+        $data = $request->validated(); //valida o request
+        $data['user_id'] = 1;
+        //dd($data);
+
+        try {
+            Event::create($data3);
+
+            return back()->with('status', 'Evento cadastrado com sucesso');
+        } catch (\Exception $exception) {
+            return back()->withErrors(['internal' => 'Usuário não foi possível cadastrar']);
+        }
     }
 
     /**
