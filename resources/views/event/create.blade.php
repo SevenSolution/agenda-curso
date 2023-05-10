@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('layout.template')
 
 @section('content')
     @if ($session = session('status'))
@@ -8,7 +8,7 @@
     @error('internal')
         {{$message}}
     @enderror
-    <form action="{{ route('event.store') }}" method="post">
+    <form action="{{ route('events.store') }}" method="post">
         @csrf
         <label for="title">Título</label>
         <input type="text" name="title"><br>

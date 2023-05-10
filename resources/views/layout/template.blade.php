@@ -9,7 +9,7 @@
 <body>
 
 @yield('content')
-
+<br><br><br><br>
     <p>Padronização Laravel: <a href="https://github.com/alexeymezenin/laravel-best-practices#follow-laravel-naming-conventions" target="_blank"> Padronizações </a></p>
 </body>
 </html>

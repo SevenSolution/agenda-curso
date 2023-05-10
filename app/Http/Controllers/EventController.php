@@ -15,7 +15,10 @@ class EventController extends Controller
     public function index()
     {
 
-        //     return view('welcome');
+        $events = Event::with('user')->get(); //Event::all();
+        
+         //dd($events->toArray());
+        return view('event.index', ['events' => $events]);
     }
 
     /**
@@ -23,7 +26,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('user.create');
+        return view('event.create');
     }
 
     /**
