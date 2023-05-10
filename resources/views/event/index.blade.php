@@ -3,6 +3,14 @@
 @section('content')
 <a href="{{ route('events.create') }}">Cadastrar</a>&nbsp; <<<<<<< Criar novo evento<br><br><br>
 
+@if ($session = session('status'))
+<div>{{$session}}</div>    
+@endif
+
+@error('internal')
+{{$message}}
+@enderror
+
 <table>
     <thead>
         <tr>
@@ -20,7 +28,7 @@
                 <td>{{$event->start}}</td>
                 <td>{{$event->end}}</td>
                 <td>
-                    <a href="">Editar</a>
+                    <a href="{{ route('events.edit', $event->id) }}">Editar</a>
                     <a href="">Excluir</a>
                 </td>
             </tr>

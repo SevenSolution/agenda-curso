@@ -58,17 +58,24 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Event $event)
     {
-        //
+        return view('event.update', ['event' => $event]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(EventRequest $request, Event $event)
     {
-        //
+        $data = $request->validated();
+        
+      try {
+        $event->update($data);
+        return redirect()->route('events.index')->with('status', 'Evento atualizado com sucesso');
+      } catch (\Exception $exception) {
+        return back()->withErrors(['internal' => 'Evento não foi possível atualizar']);   
+      }
     }
 
     /**
