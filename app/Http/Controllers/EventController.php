@@ -17,7 +17,7 @@ class EventController extends Controller
 
         $events = Event::with('user')->get(); //Event::all();
         
-         //dd($events->toArray());
+       //  dd($events->toArray());
         return view('event.index', ['events' => $events]);
     }
 

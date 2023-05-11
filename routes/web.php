@@ -14,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [EventController::class, 'index']);
+//Route::get('/', [EventController::class, 'index'])
+Route::get('/', function () {
+    return redirect('events');
+});
 Route::resource('events', EventController::class);
