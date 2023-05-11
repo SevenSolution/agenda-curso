@@ -61,6 +61,16 @@
         #button:hover {
             background-color: #45a049;
         }
+
+        #diverror {
+            border-radius: 5px;
+            background-color: red;
+            color: #ffffff;
+            padding: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
     </style>
 @endpush
 
@@ -76,7 +86,7 @@
     @endif
 
     @error('internal')
-        {{ $message }}
+      <div id="diverror">  {{ $message }} </div>
     @enderror
 
     <div>

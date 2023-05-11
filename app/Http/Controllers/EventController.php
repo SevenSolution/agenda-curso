@@ -16,8 +16,8 @@ class EventController extends Controller
     {
 
         $events = Event::with('user')->get(); //Event::all();
-        
-       //  dd($events->toArray());
+
+        //  dd($events->toArray());
         return view('event.index', ['events' => $events]);
     }
 
@@ -69,20 +69,25 @@ class EventController extends Controller
     public function update(EventRequest $request, Event $event)
     {
         $data = $request->validated();
-        
-      try {
-        $event->update($data);
-        return redirect()->route('events.index')->with('status', 'Evento atualizado com sucesso');
-      } catch (\Exception $exception) {
-        return back()->withErrors(['internal' => 'Evento não foi possível atualizar']);   
-      }
+
+        try {
+            $event->update($data);
+            return redirect()->route('events.index')->with('status', 'Evento atualizado com sucesso');
+        } catch (\Exception $exception) {
+            return back()->withErrors(['internal' => 'Evento não foi possível atualizar']);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Event $event)
     {
-        //
+        try {
+            $event->delete();
+            return back()->with('status', 'Deletado com sucesso!');
+        } catch (\Exception $exception) {
+            return back()->withErrors(['internal' => 'Evento não foi possível ser excluído']);
+        }
     }
 }

@@ -30,7 +30,7 @@
             color: white;
         }
 
-       
+
         input[type=submit]:hover {
             background-color: #45a049;
         }
@@ -47,65 +47,79 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         #button:hover {
             background-color: #45a049;
+        }
+
+        #diverror {
+            border-radius: 5px;
+            background-color: red;
+            color: #ffffff;
+            padding: 20px;
+            width: 100%;
+            margin-bottom: 20px;
         }
     </style>
 @endpush
 
 @section('content')
-<br><br>
+    <br><br>
     <a href="{{ route('events.create') }}" id="button">Cadastrar</a><br><br><br>
 
-        @if ($session = session('status'))
-            <div>{{ $session }}</div>
-        @endif
+    @if ($session = session('status'))
+        <div>{{ $session }}</div>
+    @endif
 
-        @error('internal')
-            {{ $message }}
-        @enderror
+    @error('internal')
+       <div id="diverror"> {{ $message }} </div>
+    @enderror
 
-        <table id="customers">
-            <thead>
+    <table id="customers">
+        <thead>
+            <tr>
+                <th>Usuário</th>
+                <th>Título</th>
+                <th>Início</th>
+                <th>Fim</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($events as $event)
                 <tr>
-                    <th>Usuário</th>
-                    <th>Título</th>
-                    <th>Início</th>
-                    <th>Fim</th>
-                    <th>Ações</th>
+                    <td>{{ $event->user->name }}</td>
+                    <td>{{ $event->title }}</td>
+                    <td>{{ $event->start }}</td>
+                    <td>{{ $event->end }}</td>
+                    <td>
+                        <a href="{{ route('events.edit', $event->id) }}">Editar</a>&nbsp;&nbsp;
+                        <a href="{{ route('events.destroy', $event->id) }}" onclick="event.preventDefault(); document.getElementById('form-delete-{{ $event->id }}').submit();">Excluir</a>
+                        <form action="{{ route('events.destroy', $event->id) }}" method="post" id="form-delete-{{ $event->id }}">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach ($events as $event)
-                    <tr>
-                        <td>{{ $event->user->name }}</td>
-                        <td>{{ $event->title }}</td>
-                        <td>{{ $event->start }}</td>
-                        <td>{{ $event->end }}</td>
-                        <td>
-                            <a href="{{ route('events.edit', $event->id) }}">Editar</a>&nbsp;&nbsp;
-                            <a href="">Excluir</a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endsection
+            @endforeach
+        </tbody>
+    </table>
+@endsection
 
-    @section('doubts')
-        <br><br><br><br>
-        <b>Dúvidas</b>
-        <br><br>
-        <hr>
-        --- Como converter no MODEL a data para "d-m-Y" ao exibir e ao editar converter novamente para "Y-m-d"?
-        <br> deverá ser nas views? <br><br>
-        public function getStartAttribute($value)<br>
-        {<br>
-         return Carbon::parse($value)->format('d/m/Y');<br>
-        }<br><br>
-        <br> converte, mas na hora de editar não 'puxa' para o input:data
+@section('doubts')
+    <br><br><br><br>
+    <b>Dúvidas</b>
+    <br><br>
+    <hr>
+    --- Como converter no MODEL a data para "d-m-Y" ao exibir e ao editar converter novamente para "Y-m-d"?
+    <br> deverá ser nas views? <br><br>
+    public function getStartAttribute($value)<br>
+    {<br>
+    return Carbon::parse($value)->format('d/m/Y');<br>
+    }<br><br>
+    <br> converte, mas na hora de editar não 'puxa' para o input:data
 
 
-        <hr>
-        <br><br><br><br>
-    @endsection
+    <hr>
+    <br><br><br><br>
+@endsection
