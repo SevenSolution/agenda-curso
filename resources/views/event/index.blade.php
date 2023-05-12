@@ -65,6 +65,9 @@
 
 @section('content')
     <br><br>
+    <a href="{{ route('login.logout') }}" id="button">Sair</a><br><br><br>
+
+    <br><br>
     <a href="{{ route('events.create') }}" id="button">Cadastrar</a><br><br><br>
 
     @if ($session = session('status'))
@@ -72,7 +75,7 @@
     @endif
 
     @error('internal')
-       <div id="diverror"> {{ $message }} </div>
+        <div id="diverror"> {{ $message }} </div>
     @enderror
 
     <table id="customers">
@@ -94,8 +97,10 @@
                     <td>{{ $event->end }}</td>
                     <td>
                         <a href="{{ route('events.edit', $event->id) }}">Editar</a>&nbsp;&nbsp;
-                        <a href="{{ route('events.destroy', $event->id) }}" onclick="event.preventDefault(); document.getElementById('form-delete-{{ $event->id }}').submit();">Excluir</a>
-                        <form action="{{ route('events.destroy', $event->id) }}" method="post" id="form-delete-{{ $event->id }}">
+                        <a href="{{ route('events.destroy', $event->id) }}"
+                            onclick="event.preventDefault(); document.getElementById('form-delete-{{ $event->id }}').submit();">Excluir</a>
+                        <form action="{{ route('events.destroy', $event->id) }}" method="post"
+                            id="form-delete-{{ $event->id }}">
                             @csrf
                             @method('DELETE')
                         </form>
@@ -118,7 +123,8 @@
     return Carbon::parse($value)->format('d/m/Y');<br>
     }<br><br>
     <br> converte, mas na hora de editar não 'puxa' para o input:data
-
+<hr><br>
+Ao editar e excluir o usuário pode manipular a URL, como resolver?
 
     <hr>
     <br><br><br><br>

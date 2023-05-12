@@ -15,7 +15,7 @@ class EventController extends Controller
     public function index()
     {
 
-        $events = Event::with('user')->get(); //Event::all();
+        $events = Event::with('user')->where('user_id', Auth::id())->get(); //Event::all();
 
         //  dd($events->toArray());
         return view('event.index', ['events' => $events]);
@@ -35,7 +35,7 @@ class EventController extends Controller
     public function store(EventRequest $request)
     {
         $data = $request->validated(); //valida o request
-        $data['user_id'] = 1; //mudar quando fizer login
+        $data['user_id'] = Auth::id(); //mudar quando fizer login
         //dd($data);
 
         try {

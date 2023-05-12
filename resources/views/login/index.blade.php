@@ -1,7 +1,8 @@
 @extends('layout.template')
+
 @push('css')
     <style>
-        input[type=text],
+        input[type=email],
         select {
             width: 100%;
             padding: 12px 20px;
@@ -12,7 +13,7 @@
             box-sizing: border-box;
         }
 
-        input[type=date],
+        input[type=password],
         select {
             width: 100%;
             padding: 12px 20px;
@@ -61,59 +62,41 @@
         #button:hover {
             background-color: #45a049;
         }
-
-        #diverror {
-            border-radius: 5px;
-            background-color: red;
-            color: #ffffff;
-            padding: 20px;
-            width: 100%;
-            margin-bottom: 20px;
-        }
     </style>
 @endpush
 
-
 @section('content')
-    <br><br>
-    <a href="{{ route('login.logout') }}" id="button">Sair</a><br><br><br>
 
-    <br><br>
-    <a href="{{ route('events.index') }}" id="button">Ver Todos</a><br><br><br>
+@if ($session = session('status'))
+<div>{{ $session }}</div>
+@endif
 
-
-
-    @if ($session = session('status'))
-        <div>{{ $session }}</div>
-    @endif
-
-    @error('internal')
-        <div id="diverror"> {{ $message }} </div>
-    @enderror
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        {{ $error }}<br>
+    @endforeach    
+@endif
+    <br>
 
     <div>
-        <form action="{{ route('events.store') }}" method="post">
+        <form action="{{ route('login.auth') }}" method="POST">
+            @method('POST')
             @csrf
-            <label for="title">Título</label>
-            <input type="text" name="title"><br>
-            <label for="start">Início</label>
-            <input type="date" name="start"><br>
-            <label for="end">Fim</label>
-            <input type="date" name="end"><br>
-            <input type="submit" value="enviar">
-            @if (!empty($errors))
-                {{ $errors }}
-            @endif
+            <label for="title">E-mail</label>
+            <input type="email" name="email"><br>
+            <label for="start">Senha</label>
+            <input type="password" name="password"><br>
+           <input type="submit" value="atualizar">
         </form>
     </div>
 @endsection
 
 @section('doubts')
-    <br><br><br><br>
-    <b>Dúvidas</b>
-    <br><br>
-    <hr>
-    --- Por que quando gera erro o $errors fica com charset diferente?
-    <hr>
-    <br><br><br><br>
+<br><br><br><br>
+<b>Dúvidas</b>
+<br><br>
+<hr>
+--- Por que quando gera erro o $errors fica com charset diferente?
+<hr>
+<br><br><br><br>
 @endsection

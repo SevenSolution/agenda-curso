@@ -67,6 +67,9 @@
 
 @section('content')
     <br><br>
+    <a href="{{ route('login.logout') }}" id="button">Sair</a><br><br><br>
+
+    <br><br>
     <a href="{{ route('events.index') }}" id="button">Ver Todos</a><br><br><br>
 
 
@@ -95,11 +98,11 @@
 @endsection
 
 @section('doubts')
-<br><br><br><br>
-<b>Dúvidas</b>
-<br><br>
-<hr>
---- Por que quando gera erro o $errors fica com charset diferente?
-<hr>
-<br><br><br><br>
+    <br><br><br><br>
+    <b>Dúvidas</b>
+    <br><br>
+    <hr>
+    --- Por que quando gera erro o $errors fica com charset diferente?
+    <hr>
+    <br><br><br><br>
 @endsection
