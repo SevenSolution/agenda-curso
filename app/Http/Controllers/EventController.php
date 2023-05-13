@@ -6,6 +6,7 @@ use App\Http\Requests\EventRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Expr\BooleanNot;
 
 class EventController extends Controller
 {
@@ -15,9 +16,10 @@ class EventController extends Controller
     public function index()
     {
 
-        $events = Event::with('user')->where('user_id', Auth::id())->get(); //Event::all();
+        $events = Event::with('user')
+            ->where('user_id', Auth::id())
+            ->orderBy('created_at', 'DESC')->get(); //Event::all();
 
-        //  dd($events->toArray());
         return view('event.index', ['events' => $events]);
     }
 
@@ -26,6 +28,9 @@ class EventController extends Controller
      */
     public function create()
     {
+        if ($this->createdToday()) {
+            return redirect()->route('events.index')->with('status', 'Você já cadastrou um evento hoje');
+        }
         return view('event.create');
     }
 
@@ -34,14 +39,18 @@ class EventController extends Controller
      */
     public function store(EventRequest $request)
     {
+        if ($this->createdToday()) {
+            return redirect()->route('events.index')->with('status', 'Não foi possível cadastra, você já cadastrou um evento hoje');
+        }
+
+
         $data = $request->validated(); //valida o request
         $data['user_id'] = Auth::id(); //mudar quando fizer login
         //dd($data);
 
         try {
             Event::create($data);
-
-            return back()->with('status', 'Evento cadastrado com sucesso');
+            return redirect()->route('events.index')->with('status', 'Evento cadastrado com sucesso');
         } catch (\Exception $exception) {
             return back()->withErrors(['internal' => 'Evento não foi possível cadastrar']);
         }
@@ -89,5 +98,25 @@ class EventController extends Controller
         } catch (\Exception $exception) {
             return back()->withErrors(['internal' => 'Evento não foi possível ser excluído']);
         }
+    }
+
+
+/**
+ * Verifica se já houve cadastro hoje
+ *
+ * @return boolean
+ */
+    static function createdToday(): bool
+    {
+        $event = Event::with('user')
+            ->where('user_id', Auth::id())
+            ->whereDate('created_at', today())
+            ->first();
+
+        if (empty($event) && is_null($event)) {
+            return false;
+        }
+
+        return true;
     }
 }

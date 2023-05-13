@@ -32,16 +32,16 @@ class Event extends Model
     //     return Carbon::parse($value)->format('d/m/Y');
     // }
 
-    // /**
-    //  * Transforma a data do banco em data_br
-    //  *
-    //  * @param [type] $value
-    //  * @return void
-    //  */
-    // public function getEndAttribute($value)
+    /**
+     * Transforma a data do banco em data_br
+     *
+     * @param [type] $value
+     * @return void
+     */
+    //  public function getStartAttribute($value)
     // {
     //     return Carbon::parse($value)->format('d/m/Y');
-    // }
+    //  }
 
     // // set a data no formato desejado
     //  public function setStartAttribute($value)

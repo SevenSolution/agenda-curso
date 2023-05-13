@@ -93,8 +93,8 @@
                 <tr>
                     <td>{{ $event->user->name }}</td>
                     <td>{{ $event->title }}</td>
-                    <td>{{ $event->start }}</td>
-                    <td>{{ $event->end }}</td>
+                    <td>{{ \Carbon\Carbon::parse($event->start)->format('d/m/Y') }}</td>
+                    <td>{{ is_null($event->end)?'00/00/0000':\Carbon\Carbon::parse($event->end)->format('d/m/Y') }}</td>
                     <td>
                         <a href="{{ route('events.edit', $event->id) }}">Editar</a>&nbsp;&nbsp;
                         <a href="{{ route('events.destroy', $event->id) }}"

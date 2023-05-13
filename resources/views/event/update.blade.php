@@ -103,6 +103,8 @@
     <br><br>
     <hr>
     --- Por que quando gera erro o $errors fica com charset diferente?
+    <hr><br>
+    --- Não pormitir manipulação da URL, (seria através de middleware??)
     <hr>
     <br><br><br><br>
 @endsection

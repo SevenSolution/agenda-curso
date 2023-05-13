@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [EventController::class, 'index']);
+Route::get('/', [EventController::class, 'index'])->middleware('auth')->name('index');
 
 
 Route::controller(LoginController::class)->group(function () {
@@ -33,7 +33,12 @@ Route::controller(EventController::class)->middleware('auth')->group(function ()
     Route::get('events/create', 'create')->name('events.create');
     Route::post('events', 'store')->name('events.store');
     Route::get('events/{event}', 'show')->name('events.show');
-    Route::get('events/{event}/edit', 'edit')->name('events.edit');
-    Route::put('events/{event}', 'update')->name('events.update');
-    Route::delete('events/{event}', 'destroy')->name('events.destroy');
+    
+/**
+ *  rotas de edição e exclusão com middleware para evitar 
+ * que o usuário altere/exclua registro que não pertence a ele
+ */
+    Route::get('events/{event}/edit', 'edit')->middleware('userownerevents')->name('events.edit');
+    Route::put('events/{event}', 'update')->middleware('userownerevents')->name('events.update');
+    Route::delete('events/{event}', 'destroy')->middleware('userownerevents')->name('events.destroy');
 });
