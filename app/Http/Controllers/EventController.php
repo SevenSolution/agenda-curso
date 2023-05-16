@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EventRequest;
 use App\Models\Event;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use PhpParser\Node\Expr\BooleanNot;
 
 class EventController extends Controller
 {
@@ -15,7 +13,6 @@ class EventController extends Controller
      */
     public function index()
     {
-
         $events = Event::with('user')
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'DESC')->get(); //Event::all();
@@ -69,6 +66,9 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        //policy para ver se pode visualizar a edição
+        $this->authorize('update', [$event]);
+
         return view('event.update', ['event' => $event]);
     }
 
@@ -77,6 +77,9 @@ class EventController extends Controller
      */
     public function update(EventRequest $request, Event $event)
     {
+        //police para ver se está atualizando
+        $this->authorize('update', [$event, $request]);
+
         $data = $request->validated();
 
         try {
