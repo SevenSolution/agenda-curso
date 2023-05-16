@@ -35,10 +35,9 @@ Route::controller(EventController::class)->middleware('auth')->group(function ()
     Route::get('events/{event}', 'show')->name('events.show');
     
 /**
- *  rotas de edição e exclusão com middleware para evitar 
- * que o usuário altere/exclua registro que não pertence a ele
+ *  rotas de edição e exclusão 
  */
-    Route::get('events/{event}/edit', 'edit')->middleware('userownerevents')->name('events.edit');
-    Route::put('events/{event}', 'update')->middleware('userownerevents')->name('events.update');
-    Route::delete('events/{event}', 'destroy')->middleware('userownerevents')->name('events.destroy');
+    Route::get('events/{event}/edit', 'edit')->name('events.edit');
+    Route::put('events/{event}', 'update')->name('events.update');
+    Route::delete('events/{event}', 'destroy')->name('events.destroy');
 });

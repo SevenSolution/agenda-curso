@@ -68,8 +68,8 @@
     <a href="{{ route('login.logout') }}" id="button">Sair</a><br><br><br>
 
     <br><br>
-    <a href="{{ route('events.create') }}" id="button">Cadastrar</a><br><br><br>
-
+    <a href="{{ route('events.index') }}" id="button">Ver Todos</a><br><br><br>
+    
     @if ($session = session('status'))
         <div>{{ $session }}</div>
     @endif
@@ -85,28 +85,16 @@
                 <th>Título</th>
                 <th>Início</th>
                 <th>Fim</th>
-                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($events as $event)
                 <tr>
-                    <td><a href="{{ route('events.show', $event->id) }}">{{ $event->user->name }}</a></td>
+                    <td>{{ $event->user->name }}</td>
                     <td>{{ $event->title }}</td>
                     <td>{{ \Carbon\Carbon::parse($event->start)->format('d/m/Y') }}</td>
-                    <td>{{ is_null($event->end)?'00/00/0000':\Carbon\Carbon::parse($event->end)->format('d/m/Y') }}</td>
-                    <td>
-                        <a href="{{ route('events.edit', $event->id) }}">Editar</a>&nbsp;&nbsp;
-                        <a href="{{ route('events.destroy', $event->id) }}"
-                            onclick="event.preventDefault(); document.getElementById('form-delete-{{ $event->id }}').submit();">Excluir</a>
-                        <form action="{{ route('events.destroy', $event->id) }}" method="post"
-                            id="form-delete-{{ $event->id }}">
-                            @csrf
-                            @method('DELETE')
-                        </form>
-                    </td>
+                    <td>{{ is_null($event->end) ? '00/00/0000' : \Carbon\Carbon::parse($event->end)->format('d/m/Y') }}</td>
                 </tr>
-            @endforeach
+ 
         </tbody>
     </table>
 @endsection
@@ -123,8 +111,8 @@
     return Carbon::parse($value)->format('d/m/Y');<br>
     }<br><br>
     <br> converte, mas na hora de editar não 'puxa' para o input:data
-<hr><br>
-Ao editar e excluir o usuário pode manipular a URL, como resolver?
+    <hr><br>
+    Ao editar e excluir o usuário pode manipular a URL, como resolver?
 
     <hr>
     <br><br><br><br>

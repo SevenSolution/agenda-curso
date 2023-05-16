@@ -56,9 +56,12 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Event $event)
     {
-        //
+        //police para ver evento único
+        $this->authorize('view', [$event]);
+        
+        return view('event.show', ['event' => $event]);
     }
 
     /**
@@ -75,8 +78,10 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(EventRequest $request, Event $event)
+    public function update(Event $event, EventRequest $request)
     {
+
+        // dd($request->route('event')->id);
         //police para ver se está atualizando
         $this->authorize('update', [$event, $request]);
 
@@ -95,6 +100,11 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+
+        // dd($event);
+        //police para ver se está atualizando
+        $this->authorize('delete', [$event]);
+
         try {
             $event->delete();
             return back()->with('status', 'Deletado com sucesso!');
@@ -104,11 +114,11 @@ class EventController extends Controller
     }
 
 
-/**
- * Verifica se já houve cadastro hoje
- *
- * @return boolean
- */
+    /**
+     * Verifica se já houve cadastro hoje
+     *
+     * @return boolean
+     */
     static function createdToday(): bool
     {
         $event = Event::with('user')
