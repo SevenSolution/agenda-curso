@@ -54,15 +54,10 @@ class EventPolicy
      * Determine whether the user can update the model.
      * Método EDIT E UPDATE
      */
-    public function update(User $user, Event $event, EventRequest $request = null): bool
+    public function update(User $user, Event $event): bool
     {
-        if ($request === null) {
-            // Se $request é nulo, então o usuário está visualizando a edição.
-            return $user->id === $event->user_id;
-        }
-
         // Se $request não é nulo, então o usuário está tentando atualizar o evento.
-        return $user->id === $event->user_id && $event->id === $request->route('event')->id;
+        return $user->id === $event->user_id;
     }
 
     /**

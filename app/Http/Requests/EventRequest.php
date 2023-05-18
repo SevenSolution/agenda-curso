@@ -49,7 +49,7 @@ class EventRequest extends FormRequest
     public function messages()
     {
         return[
-            'title.required' => 'Campo título é obrigatório',
+            'title.required' => 'Campo :attribute é obrigatório',
             'title.max' => 'tamanho maximo excedido',
             'start.required' => 'Campo de início é obrigatório',
             'start.date' => 'Campo de início deve ser do tipo data',

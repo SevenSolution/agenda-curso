@@ -25,7 +25,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        if ($this->createdToday()) {
+        if ($this->betweenDates()) {
             return redirect()->route('events.index')->with('status', 'Você já cadastrou um evento hoje');
         }
         return view('event.create');
@@ -36,7 +36,7 @@ class EventController extends Controller
      */
     public function store(EventRequest $request)
     {
-        if ($this->createdToday()) {
+        if ($this->betweenDates()) {
             return redirect()->route('events.index')->with('status', 'Não foi possível cadastra, você já cadastrou um evento hoje');
         }
 
@@ -60,7 +60,7 @@ class EventController extends Controller
     {
         //police para ver evento único
         $this->authorize('view', [$event]);
-        
+
         return view('event.show', ['event' => $event]);
     }
 
@@ -83,7 +83,7 @@ class EventController extends Controller
 
         // dd($request->route('event')->id);
         //police para ver se está atualizando
-        $this->authorize('update', [$event, $request]);
+        $this->authorize('update', $event);
 
         $data = $request->validated();
 
@@ -119,17 +119,30 @@ class EventController extends Controller
      *
      * @return boolean
      */
-    static function createdToday(): bool
+    static function betweenDates(): bool
     {
+        $today = now()->toDateString();
+        //  dd($today);
+
         $event = Event::with('user')
             ->where('user_id', Auth::id())
-            ->whereDate('created_at', today())
-            ->first();
+            ->where('start', '<=', $today)
+            ->where('end', '>=', $today)->first();
 
-        if (empty($event) && is_null($event)) {
-            return false;
-        }
+        // dd(($event) ? true : false);
+        return (empty($event) && is_null($event)) ? true : false;
+        
+        
+        //código pesquisa por created_at
+        // $event = Event::with('user')
+        //     ->where('user_id', Auth::id())
+        //     ->whereDate('created_at', today())
+        //     ->first();
 
-        return true;
+        // if (empty($event) && is_null($event)) {
+        //     return false;
+        // }
+
+        // return true;
     }
 }

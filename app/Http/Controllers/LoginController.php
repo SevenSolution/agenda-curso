@@ -29,7 +29,7 @@ class LoginController extends Controller
         if (Auth::attempt($credential)) {
 
             $request->session()->regenerate();
-            return redirect()->intended('events');
+            return redirect()->intended('events'); //retorna para a última view
         } else {
             return redirect()->back()->with('status', 'Email ou Senha errada');
         }
